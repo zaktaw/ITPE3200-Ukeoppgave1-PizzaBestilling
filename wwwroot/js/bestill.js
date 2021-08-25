@@ -1,17 +1,18 @@
 ﻿$(function () {
-    
 });
 
 function bestill() {
-    const kunde = {
+    const kundeBestilling = {
+        type: $("#selectType").val(),
+        tykkelse: $("input[name='tykkelse']:checked").val(),
+        antall: $("#textAntall").val(),
         navn: $("#textNavn").val(),
         adresse: $("#textAdresse").val(),
         telefonnummer: $("#textTelefonnummer").val()
     };
 
-    $.post("KundeBestilling/Lagre", kunde, function (OK) {
+    $.post("KundeBestilling/Lagre", kundeBestilling, function (OK) {
         if (OK) {
-            console.log("OK")
             window.location.href = "index.html";
         }
         else {

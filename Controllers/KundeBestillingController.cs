@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,14 +19,48 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
             _db = db;
         }
 
-        public bool Lagre(Kunde innKunde)
+        public bool Lagre(KundeBestilling innBestilling)
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("lagrer");
-                _db.Add(innKunde);
-                _db.SaveChanges();
-                return true;
+                Kunde kunde = _db.Kunder.FirstOrDefault(k => k.navn == innBestilling.navn);
+
+                // kunde finnes ikke i databasen: legg til kunde og bestilling
+                if (kunde == null)
+                {
+                    Kunde nyKunde = new Kunde();
+                    nyKunde.navn = innBestilling.navn;
+                    nyKunde.adresse = innBestilling.adresse;
+                    nyKunde.telefonnummer = innBestilling.telefonnummer;
+
+                    _db.Kunder.Add(nyKunde);
+                    _db.SaveChanges();
+
+                    Bestilling nyBestilling = new Bestilling();
+                    nyBestilling.kunde = nyKunde;
+                    nyBestilling.type= innBestilling.type;
+                    nyBestilling.tykkelse = innBestilling.tykkelse;
+                    nyBestilling.antall = innBestilling.antall;
+
+                    _db.Bestillinger.Add(nyBestilling);
+                    _db.SaveChanges();
+                   
+                    return true;
+                }
+                // kunde finnes i databasen: legg kun til bestilling
+                else
+                {
+                    Bestilling nyBestilling = new Bestilling();
+                    nyBestilling.kunde = kunde;
+                    nyBestilling.type = innBestilling.type;
+                    nyBestilling.tykkelse = innBestilling.tykkelse;
+                    nyBestilling.antall = innBestilling.antall;
+
+                    _db.Bestillinger.Add(nyBestilling);
+                    _db.SaveChanges();
+
+                    return true;
+                }
             }
             catch
             {

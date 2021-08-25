@@ -14,7 +14,7 @@
     </div>
     <div class="container">
         <h1>Bestilling</h1>
-        <form class="form">
+        <form class="form" id="form">
             <div class="form-group">
                 <label>Pizza-type</label>
                 <select id="selectType">
@@ -27,7 +27,11 @@
             <div class="form-group">
                 <label>Pizza-tykkelse</label>
                 <div>
+                    <label>Tynn<label>
                     <input type="radio" id="radioTynn" name="tykkelse" value="Tynn">
+                </div>
+                <div>
+                    <label>Tykk<label>
                     <input type="radio" id="radioTykk" name="tykkelse" value="Tykk">
                 </div>
             </div>
@@ -52,10 +56,12 @@
                 <input type="text" id="textTelefonnummer">
             </div>
 
-            <button class="btn btn-primary" id="btnBestill" onclick="bestill()">Bestill</button>
+            <div class="form-group">
+                <input type="button" id="btnBestill" value="bestill" onclick="bestill()" class="btn btn-primary"/>
+            </div>
 
             <div id="error" style="color: red"></div>
-        </form>
+    </form>
     </div>
 </body>
 </html>

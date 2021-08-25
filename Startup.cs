@@ -44,17 +44,16 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(); // må ha med denne for å få med html-filen
 
             app.UseRouting();
-
-            app.UseStaticFiles(); // må ha med denne for å få med html-filen
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }
