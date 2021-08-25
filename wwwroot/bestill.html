@@ -8,11 +8,52 @@
     <script src="js/bestill.js"></script>
 </head>
 <body>
-    <h1>Bestilling</h1>
     <div>
         <a href="index.html">Holbergs pizza</a>
         <a href="bestill.html">Bestill</a>
     </div>
-    <div id="tableBestillinger"></div>
+    <div class="container">
+        <h1>Bestilling</h1>
+        <form class="form">
+            <div class="form-group">
+                <label>Pizza-type</label>
+                <select id="selectType">
+                    <option>Margarita (100 kr)</option>
+                    <option>Pepperoni (120 kr)</option>
+                    <option>Kebab (150 kr)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Pizza-tykkelse</label>
+                <div>
+                    <input type="radio" id="radioTynn" name="tykkelse" value="Tynn">
+                    <input type="radio" id="radioTykk" name="tykkelse" value="Tykk">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Antall</label>
+                <input type="text" id="textAntall">
+            </div>
+
+            <div class="form-group">
+                <label>Navn</label>
+                <input type="text" id="textNavn">
+            </div>
+
+            <div class="form-group">
+                <label>Adresse</label>
+                <input type="text" id="textAdresse">
+            </div>
+
+            <div class="form-group">
+                <label>Telefonnummer</label>
+                <input type="text" id="textTelefonnummer">
+            </div>
+
+            <button class="btn btn-primary" id="btnBestill" onclick="bestill()">Bestill</button>
+        </form>
+    </div>
 </body>
 </html>
