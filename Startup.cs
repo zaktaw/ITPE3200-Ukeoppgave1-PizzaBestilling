@@ -1,5 +1,7 @@
+using ITPE3200_Ukeoppgave1_PizzaBestilling.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +25,11 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+
+            // må ha med dette for å sette opp databasen
+            services.AddControllers();
+            services.AddConnections();
+            services.AddDbContext<KundeBestillingDb>(options => options.UseSqlite("Data source=Kunde.db"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +47,8 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseStaticFiles(); // må ha med denne for å få med html-filen
 
             app.UseAuthorization();
 

@@ -22,6 +22,7 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
         {
             try
             {
+                System.Diagnostics.Debug.WriteLine("lagrer");
                 _db.Add(innKunde);
                 _db.SaveChanges();
                 return true;
