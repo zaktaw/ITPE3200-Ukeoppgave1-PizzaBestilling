@@ -19,6 +19,7 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
             _db = db;
         }
 
+        //[HttpPost]
         public bool Lagre(KundeBestilling innBestilling)
         {
             try
@@ -33,16 +34,17 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
                     nyKunde.adresse = innBestilling.adresse;
                     nyKunde.telefonnummer = innBestilling.telefonnummer;
 
-                    _db.Kunder.Add(nyKunde);
-                    _db.SaveChanges();
-
                     Bestilling nyBestilling = new Bestilling();
-                    nyBestilling.kunde = nyKunde;
                     nyBestilling.type= innBestilling.type;
                     nyBestilling.tykkelse = innBestilling.tykkelse;
                     nyBestilling.antall = innBestilling.antall;
 
+                    nyKunde.bestillinger = new List<Bestilling>();
+                    nyKunde.bestillinger.Add(nyBestilling);
+
+                    _db.Kunder.Add(nyKunde);
                     _db.Bestillinger.Add(nyBestilling);
+
                     _db.SaveChanges();
                    
                     return true;
@@ -51,10 +53,11 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
                 else
                 {
                     Bestilling nyBestilling = new Bestilling();
-                    nyBestilling.kunde = kunde;
                     nyBestilling.type = innBestilling.type;
                     nyBestilling.tykkelse = innBestilling.tykkelse;
                     nyBestilling.antall = innBestilling.antall;
+
+                    kunde.bestillinger.Add(nyBestilling);
 
                     _db.Bestillinger.Add(nyBestilling);
                     _db.SaveChanges();
@@ -68,12 +71,32 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
             }
         }
 
-        public List<Kunde> HentAlle()
+        public List<KundeBestilling> HentAlle()
         {
             try
             {
+                List<KundeBestilling> kbs = new List<KundeBestilling>();
                 List<Kunde> kunder = _db.Kunder.ToList();
-                return kunder;
+
+                foreach (var kunde in kunder)
+                {
+                    foreach (var bestilling in kunde.bestillinger)
+                    {
+                        KundeBestilling kundeBestilling = new KundeBestilling();
+
+                        kundeBestilling.type = bestilling.type;
+                        kundeBestilling.tykkelse = bestilling.tykkelse;
+                        kundeBestilling.antall = bestilling.antall;
+                        kundeBestilling.navn = kunde.navn;
+                        kundeBestilling.telefonnummer = kunde.telefonnummer;
+                        kundeBestilling.adresse = kunde.adresse;
+
+                        kbs.Add(kundeBestilling);
+                    }
+                }
+             
+
+                return kbs;
             }
             catch
             {
