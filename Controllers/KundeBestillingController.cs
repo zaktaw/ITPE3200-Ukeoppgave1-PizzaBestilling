@@ -84,6 +84,7 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
                     {
                         KundeBestilling kundeBestilling = new KundeBestilling();
 
+                        kundeBestilling.id = bestilling.id;
                         kundeBestilling.type = bestilling.type;
                         kundeBestilling.tykkelse = bestilling.tykkelse;
                         kundeBestilling.antall = bestilling.antall;
@@ -101,6 +102,21 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
             catch
             {
                 return null;
+            }
+        }
+
+        public async Task<bool> SlettEn(int id)
+        {
+            try
+            {
+                Bestilling funnetBestilling = await _db.Bestillinger.FindAsync(id);
+                _db.Bestillinger.Remove(funnetBestilling);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

@@ -7,6 +7,7 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Models
 {
     public class KundeBestilling
     {
+        public int id { get; set; }
         public string type { get; set; }
         public string tykkelse { get; set; }
         public string antall { get; set; }
