@@ -1,5 +1,6 @@
 ﻿using ITPE3200_Ukeoppgave1_PizzaBestilling.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,8 +20,7 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
             _db = db;
         }
 
-        //[HttpPost]
-        public bool Lagre(KundeBestilling innBestilling)
+        public async Task<bool> Lagre(KundeBestilling innBestilling)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
                     _db.Kunder.Add(nyKunde);
                     _db.Bestillinger.Add(nyBestilling);
 
-                    _db.SaveChanges();
+                    await _db.SaveChangesAsync();
                    
                     return true;
                 }
@@ -60,7 +60,7 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
                     kunde.bestillinger.Add(nyBestilling);
 
                     _db.Bestillinger.Add(nyBestilling);
-                    _db.SaveChanges();
+                    await _db.SaveChangesAsync();
 
                     return true;
                 }
@@ -71,12 +71,12 @@ namespace ITPE3200_Ukeoppgave1_PizzaBestilling.Controllers
             }
         }
 
-        public List<KundeBestilling> HentAlle()
+        public async Task<List<KundeBestilling>> HentAlle()
         {
             try
             {
                 List<KundeBestilling> kbs = new List<KundeBestilling>();
-                List<Kunde> kunder = _db.Kunder.ToList();
+                List<Kunde> kunder = await _db.Kunder.ToListAsync();
 
                 foreach (var kunde in kunder)
                 {
